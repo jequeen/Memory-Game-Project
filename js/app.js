@@ -1,7 +1,9 @@
 /*
  * Create a list that holds all of your cards
  */
-
+let cardsList = document.querySelectorAll('.card');
+const deck = document.querySelector('.deck');
+displayCards();
 
 /*
  * Display the cards on the page
@@ -9,9 +11,21 @@
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+function displayCards(){
+    let documentFragment = document.createDocumentFragment();
+    let newList = shuffle(cardsList);
+    while (deck.firstChild) {
+        deck.removeChild(deck.firstChild);
+    }
+    for(li of newList){
+        documentFragment.appendChild(li);
+    }
+    deck.appendChild(documentFragment);
+}
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
+function shuffle(nodeList) {
+    let array = Array.from(nodeList); 
     var currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
