@@ -50,3 +50,57 @@ function shuffle(nodeList) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+let openCardList = [];
+
+for (let item of cardsList) {
+    item.addEventListener('click',function(e){
+        if(!item.classList.contains("match") 
+            && !item.classList.contains("show") 
+            && !item.classList.contains("open") 
+            && openCardList.length < 2)
+            {
+                displayCardSymbol(item);
+                addOpenCardToList(item);
+                // TODO: the classes are being added but not displaying the image before removing the classes
+                // for improper matches
+            } 
+        if(openCardList.length == 2){
+
+            if(checkIfMatch()){    
+                for(item of openCardList){
+                    lockPosition(item);
+                } 
+            }
+            else{
+                console.log("here");
+                for(item of openCardList){
+                    displayCardSymbol(item);  
+                }
+                openCardList = [];
+            }
+        }
+    });
+}
+
+/*
+* Displays the symbol and flipped version of the
+*/
+function displayCardSymbol(element){
+    element.classList.toggle("show");
+    element.classList.toggle("open");
+}
+
+function addOpenCardToList(element){
+    openCardList.push(element);
+}
+
+function lockPosition(element){
+    displayCardSymbol(element);
+    element.classList.toggle("match");
+}
+
+function checkIfMatch(){
+    if(openCardList[0].firstElementChild.className === openCardList[1].firstElementChild.className){
+        return true;
+    }
+}
